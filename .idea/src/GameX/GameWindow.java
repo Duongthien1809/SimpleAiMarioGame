@@ -27,7 +27,7 @@ public class GameWindow extends JFrame{
 
         setTitle("GameX - Das Spiel, dass noch keinen Namen hat");
         setLocation(10, 10);
-        setResizable(false);
+        setResizable(true);
 
         setVisible(true);
     }
