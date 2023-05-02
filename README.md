@@ -1,3 +1,3 @@
 # GameX.GameX
 
-test test test
+Das Spiel befindet sich noch in der Entwicklung.
