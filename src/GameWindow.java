@@ -14,14 +14,15 @@ import java.awt.event.WindowEvent;
 
 public class GameWindow extends JFrame {
 
+    private final GameConsole gameConsole;
+
     public GameWindow() {
 
-        JPanel testPanel = new JPanel();
-        testPanel.setPreferredSize(new Dimension(600, 400));
+        this.gameConsole = new GameConsole();
         createMenu();
         registerWindowListener();
 
-        add(testPanel);
+        add(gameConsole);
         pack();
 
         setTitle("control.GameX - Das Spiel, dass noch keinen Namen hat");
