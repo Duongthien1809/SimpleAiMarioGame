@@ -1,3 +1,3 @@
-# GameX.GameX
+# control.GameX
 
 Das Spiel befindet sich noch in der Entwicklung.
