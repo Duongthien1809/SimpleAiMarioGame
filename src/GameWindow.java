@@ -1,4 +1,3 @@
-package GameX;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class GameWindow extends JFrame{
+public class GameWindow extends JFrame {
 
     private final GameConsole gameConsole;
 
@@ -26,7 +25,7 @@ public class GameWindow extends JFrame{
         add(gameConsole);
         pack();
 
-        setTitle("GameX - Das Spiel, dass noch keinen Namen hat");
+        setTitle("control.GameX - Das Spiel, dass noch keinen Namen hat");
         setLocation(10, 10);
         setResizable(true);
 
@@ -127,15 +126,16 @@ public class GameWindow extends JFrame{
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
+
             @Override
             public void windowDeactivated(WindowEvent e) {
                 // pausieren
             }
+
             @Override
             public void windowActivated(WindowEvent e) {
                 //  Spiel wieder fortsetzen
             }
         });
     }
-
 }
