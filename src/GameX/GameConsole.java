@@ -22,7 +22,9 @@ public class GameConsole extends JPanel {
     private final String background = "sky.jpg";
 
     private boolean gameOver = false;
+    private int counter = 0;
     private Timer t;
+
 
     private void createGameObjects() {
         // hier werden wir später die Spielobjekte erzeugen
@@ -37,15 +39,32 @@ public class GameConsole extends JPanel {
     private void initGame () {
         setBackgroundImage();
         repaint();
+        t = new Timer(60, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                countDown();
+            }
+        });
+        //repaint();
         //createGameObjects();
-    } @Override
+    }
+
+   @Override
     public void paintComponent (Graphics g) {
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        backgroundImage.paintIcon(null, g, 0, 0);
+       if(backgroundImage != null){
+           backgroundImage.paintIcon(this, g, 0, 0);
+       }
+        // backgroundImage.paintIcon(null, g, 0, 0);
+
+        g.setFont(new Font(Font.MONOSPACED,Font.BOLD,19));
+        g.setColor(Color.BLACK);
+        g.drawString("Counter:" + counter, 22, prefSize.height-50);
+        repaint();
     }
 
     private void startGame() {
@@ -68,8 +87,9 @@ public class GameConsole extends JPanel {
     }
 
     public void restartGame() {
+        counter = 0;
         setGameOver(false);
-        createGameObjects();
+        //createGameObjects();
         startGame();
     }
 
@@ -83,6 +103,13 @@ public class GameConsole extends JPanel {
         setPreferredSize(prefSize);
 
         initGame();
-        //startGame();
+        startGame();
     }
+
+    public void countDown() {
+        counter++;
+        if (counter > 240)
+            endGame();
+        repaint();
+     }
 }

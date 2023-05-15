@@ -47,6 +47,8 @@ public class GameWindow extends JFrame{
         menuBar.add(saveMenu);
 
         addFileMenuItems(fileMenu);
+        addGameMenuItems(gameMenu);
+        addSaveMenuItems(saveMenu);
     }
 
     private void addFileMenuItems(JMenu fileMenu) {
@@ -59,6 +61,64 @@ public class GameWindow extends JFrame{
                 System.exit(0);
             }
         });
+
+    }
+
+    private void addGameMenuItems(JMenu gameMenu){
+        JMenuItem pauseItem = new JMenuItem("pause");
+        gameMenu.add(pauseItem);
+        pauseItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameConsole.pauseGame();
+            }
+        });
+
+        JMenuItem continueItem = new JMenuItem("continue");
+        gameMenu.add(continueItem);
+        continueItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameConsole.continueGame(); //
+            }
+        });
+
+        JMenuItem restartItem = new JMenuItem("restart");
+        gameMenu.add(restartItem);
+        restartItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameConsole.restartGame();
+            }
+        });
+    }
+    private void addSaveMenuItems(JMenu saveMenu){
+        JMenuItem save1 = new JMenuItem("state 1");
+        saveMenu.add(save1);
+        save1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // save state 1
+            }
+        });
+        JMenuItem save2 = new JMenuItem("state 2");
+        saveMenu.add(save2);
+        save2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // save state 2
+            }
+        });
+
+        JMenuItem save3 = new JMenuItem("state 3");
+        saveMenu.add(save3);
+        save3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // save state 3
+            }
+        });
+
     }
 
     private void registerWindowListener() {
