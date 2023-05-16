@@ -4,7 +4,6 @@ import control.WindowController;
 import model.Hero;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -12,6 +11,7 @@ import java.awt.event.WindowEvent;
 
 public class App {
     private final static int WIDTH = 600, HEIGHT = 400;
+    private static GameWindow gameWindow = new GameWindow();
 
     public static void main(String[] args) {
 //        Hero hero = new Hero(0, 400 - 48);
@@ -29,7 +29,7 @@ public class App {
         frame.addKeyListener(keyController);
         frame.pack();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setResizable(false);
+        frame.setResizable(true);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
@@ -48,6 +48,13 @@ public class App {
         menuBar.add(saveMenu);
 
         addFileMenuItems(fileMenu);
+        menuBar.add(fileMenu);
+        menuBar.add(gameMenu);
+        menuBar.add(saveMenu);
+
+        addFileMenuItems(fileMenu);
+        gameWindow.addGameMenuItems(gameMenu);
+        gameWindow.addSaveMenuItems(saveMenu);
     }
 
     public static void addFileMenuItems(JMenu fileMenu) {

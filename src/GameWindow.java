@@ -63,7 +63,7 @@ public class GameWindow extends JFrame {
 
     }
 
-    private void addGameMenuItems(JMenu gameMenu){
+    protected void addGameMenuItems(JMenu gameMenu){
         JMenuItem pauseItem = new JMenuItem("pause");
         gameMenu.add(pauseItem);
         pauseItem.addActionListener(new ActionListener() {
@@ -91,7 +91,7 @@ public class GameWindow extends JFrame {
             }
         });
     }
-    private void addSaveMenuItems(JMenu saveMenu){
+    protected void addSaveMenuItems(JMenu saveMenu){
         JMenuItem save1 = new JMenuItem("state 1");
         saveMenu.add(save1);
         save1.addActionListener(new ActionListener() {
