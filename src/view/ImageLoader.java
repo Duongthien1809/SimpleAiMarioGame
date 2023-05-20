@@ -1,17 +1,19 @@
 package view;
 
-import model.Hero;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class ImageLoader {
-
+    private BufferedImage sprite;
     private BufferedImage heroImage;
 
+    private BufferedImage blockAnimation;
+
     public ImageLoader() {
-        heroImage = loadImage("/mario-forms.png");
+        heroImage = loadImage("/hero.png");
+        blockAnimation = loadImage("/blockAnimation.png");
+        sprite = loadImage("/sprite.png");
     }
 
     public BufferedImage loadImage(String path) {
@@ -26,11 +28,14 @@ public class ImageLoader {
         return imageToReturn;
     }
 
-    public BufferedImage getHeroImage() {
-        return heroImage;
+    public BufferedImage getSpriteSubImage(int col, int row, int w, int h){
+        if((col == 1 || col == 4) && row == 3){ //koopa
+            return sprite.getSubimage((col-1)*48, 128, w, h);
+        }
+        return sprite.getSubimage((col-1)*48, (row-1)*48, w, h);
     }
 
-    public BufferedImage[] getLeftFrames() {
+    public BufferedImage[] getHeroLeftFrames() {
         BufferedImage[] leftFrames = new BufferedImage[5];
         int col = 1;
         int width = 52, height = 48;
@@ -41,7 +46,7 @@ public class ImageLoader {
         return leftFrames;
     }
 
-    public BufferedImage[] getRightFrames() {
+    public BufferedImage[] getHeroRightFrames() {
         BufferedImage[] rightFrames = new BufferedImage[5];
         int col = 2;
         int width = 52, height = 48;
@@ -50,5 +55,13 @@ public class ImageLoader {
             rightFrames[i] = heroImage.getSubimage((col - 1) * width, (i) * height, width, height);
         }
         return rightFrames;
+    }
+
+    public BufferedImage[] getBlockFrames() {
+        BufferedImage[] frames = new BufferedImage[4];
+        for (int i = 0; i < 4; i++) {
+            frames[i] = blockAnimation.getSubimage(i * 105, 0, 105, 105);
+        }
+        return frames;
     }
 }

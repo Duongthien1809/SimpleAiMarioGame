@@ -1,40 +1,32 @@
 package model;
 
-import control.GameX;
 import view.Animation;
-import view.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Hero extends Movable {
+public class Hero extends Item {
     private Animation animation;
     private boolean towardsRight = true;
 
-    public Hero(double x, double y) {
+    public Hero(double x, double y, Animation animation) {
         super(x, y, null);
         setDimension(48, 48);
-
-        ImageLoader imageLoader = new ImageLoader();
-        BufferedImage[] leftFrames = imageLoader.getLeftFrames();
-        BufferedImage[] rightFrames = imageLoader.getRightFrames();
-
-        Animation animation = new Animation(leftFrames, rightFrames);
         this.animation = animation;
         setStyle(getCurrentStyle(towardsRight, false, false));
     }
 
-    public BufferedImage getCurrentStyle(boolean toRight, boolean movingInX, boolean movingInY) {
+    public BufferedImage getCurrentStyle(boolean towardsRight, boolean movingInX, boolean movingInY) {
         BufferedImage style;
 
-        if (movingInY && toRight) {
+        if (movingInY && towardsRight) {
             style = animation.getRightFrames()[0];
         } else if (movingInY) {
             style = animation.getLeftFrames()[0];
         } else if (movingInX) {
-            style = animation.animate(5, toRight);
+            style = animation.animate(5, towardsRight);
         } else {
-            if (toRight) {
+            if (towardsRight) {
                 style = animation.getRightFrames()[1];
             } else
                 style = animation.getLeftFrames()[1];
@@ -73,5 +65,9 @@ public class Hero extends Movable {
         }
 
         this.towardsRight = towardsRight;
+    }
+
+    public boolean isTowardsRight() {
+        return towardsRight;
     }
 }

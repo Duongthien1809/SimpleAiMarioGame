@@ -3,7 +3,7 @@ package model;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public abstract class Movable {
+public abstract class Item {
 
     private double x, y;
 
@@ -17,7 +17,7 @@ public abstract class Movable {
 
     private boolean falling, jumping;
 
-    public Movable(double x, double y, BufferedImage style) {
+    public Item(double x, double y, BufferedImage style) {
         setLocation(x, y);
         setStyle(style);
 
