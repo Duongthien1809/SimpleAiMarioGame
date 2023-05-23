@@ -20,7 +20,6 @@ public class GameX {
     }
 
     public void receiveInput(Key key) {
-        System.out.println(key);
         if (status == Status.RUNNING) {
             if (key == Key.JUMP) {
                 hero.jump();

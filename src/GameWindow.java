@@ -25,7 +25,7 @@ public class GameWindow extends JFrame {
         add(gameConsole);
         pack();
 
-        setTitle("control.GameX - Das Spiel, dass noch keinen Namen hat");
+        setTitle("control.GameX - Das Spiel, das noch keinen Namen hat");
         setLocation(10, 10);
         setResizable(true);
 
