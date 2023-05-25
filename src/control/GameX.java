@@ -1,6 +1,6 @@
 package control;
 
-import model.Hero;
+import model.hero.Hero;
 
 public class GameX {
     private Status status = Status.RUNNING;
@@ -20,6 +20,7 @@ public class GameX {
     }
 
     public void receiveInput(Key key) {
+        System.out.println(key);
         if (status == Status.RUNNING) {
             if (key == Key.JUMP) {
                 hero.jump();
@@ -29,6 +30,8 @@ public class GameX {
                 hero.move(false);
             } else if (key == Key.ACTION_COMPLETED) {
                 hero.setVelocityX(0);
+            } else if (key == Key.SHOOT) {
+                windowController.shoot();
             }
         }
         windowController.updateLocations();

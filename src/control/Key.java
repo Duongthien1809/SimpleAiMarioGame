@@ -5,7 +5,7 @@ public enum Key {
     M_RIGHT,
     M_LEFT,
     CROUCH,
-    FIRE,
+    SHOOT,
     START,
     PAUSE_RESUME,
     ACTION_COMPLETED,

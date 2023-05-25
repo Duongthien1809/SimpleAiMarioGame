@@ -38,9 +38,8 @@ public class KeyController implements KeyListener {
                 currentKey = Key.GO_TO_START_SCREEN;
 
         } else if (keyCode == KeyEvent.VK_SPACE) {
-            currentKey = Key.FIRE;
+            currentKey = Key.SHOOT;
         }
-
 
         notifyInput(currentKey);
     }
