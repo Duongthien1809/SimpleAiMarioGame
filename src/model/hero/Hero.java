@@ -1,5 +1,6 @@
-package model;
+package model.hero;
 
+import model.Item;
 import view.Animation;
 
 import java.awt.*;
@@ -9,10 +10,12 @@ public class Hero extends Item {
     private Animation animation;
     private boolean towardsRight = true;
 
-    public Hero(double x, double y, Animation animation) {
+    public Hero(double x, double y, Animation animation, BufferedImage bulletStyle) {
         super(x, y, null);
         setDimension(48, 48);
         this.animation = animation;
+        this.bulletStyle = bulletStyle;
+        this.isArmed = true;//TODO: isArmed should be false by default
         setStyle(getCurrentStyle(towardsRight, false, false));
     }
 
@@ -69,5 +72,33 @@ public class Hero extends Item {
 
     public boolean isTowardsRight() {
         return towardsRight;
+    }
+
+    private boolean isArmed;
+    private BufferedImage bulletStyle;
+
+    public Bullet shoot(boolean towardsRight, double x, double y) {
+        if (isArmed) {
+            return new Bullet(x, y + 48, bulletStyle, towardsRight);
+        }
+        return null;
+    }
+
+    private int remainingLives = 3;
+    public boolean onTouchEnemy(){
+/*        if(!marioForm.isSuper() && !marioForm.isFire()){
+            remainingLives--;
+            engine.playMarioDies();
+            return true;
+        }
+        else{
+            engine.shakeCamera();
+            marioForm = marioForm.onTouchEnemy(engine.getImageLoader());
+            setDimension(48, 48);
+            return false;
+        }*/
+        remainingLives--;
+        System.out.println(remainingLives);
+        return remainingLives > 0;
     }
 }

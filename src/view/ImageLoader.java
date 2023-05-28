@@ -8,11 +8,8 @@ public class ImageLoader {
     private BufferedImage sprite;
     private BufferedImage heroImage;
 
-    private BufferedImage blockAnimation;
-
     public ImageLoader() {
         heroImage = loadImage("/hero.png");
-        blockAnimation = loadImage("/blockAnimation.png");
         sprite = loadImage("/sprite.png");
     }
 
@@ -55,13 +52,5 @@ public class ImageLoader {
             rightFrames[i] = heroImage.getSubimage((col - 1) * width, (i) * height, width, height);
         }
         return rightFrames;
-    }
-
-    public BufferedImage[] getBlockFrames() {
-        BufferedImage[] frames = new BufferedImage[4];
-        for (int i = 0; i < 4; i++) {
-            frames[i] = blockAnimation.getSubimage(i * 105, 0, 105, 105);
-        }
-        return frames;
     }
 }

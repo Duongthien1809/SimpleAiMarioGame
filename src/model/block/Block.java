@@ -1,26 +1,16 @@
 package model.block;
 
 import model.Item;
+import model.prize.Award;
 
 import java.awt.image.BufferedImage;
 
 public abstract class Block extends Item {
-
-    private boolean breakable;
-
     private boolean empty;
 
     public Block(double x, double y, BufferedImage style){
         super(x, y, style);
         setDimension(48, 48);
-    }
-
-    public boolean isBreakable() {
-        return breakable;
-    }
-
-    public void setBreakable(boolean breakable) {
-        this.breakable = breakable;
     }
 
     public boolean isEmpty() {
@@ -29,6 +19,12 @@ public abstract class Block extends Item {
 
     public void setEmpty(boolean empty) {
         this.empty = empty;
+    }
+
+    public Award reveal(){ return null;}
+
+    public Award getPrize() {
+        return null;
     }
 }
 
