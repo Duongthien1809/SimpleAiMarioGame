@@ -2,6 +2,7 @@ package control;
 
 import model.hero.Hero;
 
+
 public class GameX {
     private Status status = Status.RUNNING;
     private Hero hero;
@@ -13,6 +14,10 @@ public class GameX {
 
     public Status getStatus() {
         return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public void setWindowController(WindowController windowController) {
@@ -34,7 +39,7 @@ public class GameX {
                 windowController.shoot();
             }
         }
-        windowController.updateLocations();
         windowController.render();
     }
+
 }
