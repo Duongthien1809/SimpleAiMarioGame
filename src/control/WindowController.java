@@ -83,6 +83,53 @@ public class WindowController extends JPanel {
         startGame();
     }
 
+    public void setWindowController(WindowController windowController){
+        setGameX(windowController.getGameX());
+        setHero(windowController.getHero());
+        setBlocks(windowController.getBlocks());
+        setImageLoader(windowController.getImageLoader());
+        setKeyController(windowController.getKeyController());
+
+        initGame();
+        startGame();
+    }
+
+    public GameX getGameX(){
+        return this.gameX;
+    }
+
+    public Hero getHero(){
+        return this.hero;
+    }
+
+    public ArrayList<Block> getBlocks(){
+        return this.blocks;
+    }
+
+    public ImageLoader getImageLoader(){
+        return this.imageLoader;
+    }
+
+    public void setBlocks(final ArrayList<Block> blocks){
+        this.blocks = blocks;
+    }
+
+    public void setGameX(final GameX gameX){
+        this.gameX = gameX;
+    }
+
+    public void setHero(final Hero hero){
+        this.hero = hero;
+    }
+
+    public void setImageLoader(final ImageLoader imageLoader){
+        this.imageLoader = imageLoader;
+    }
+
+    public void setKeyController(final KeyController keyController){
+        this.keyController = keyController;
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

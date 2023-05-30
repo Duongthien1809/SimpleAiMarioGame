@@ -1,4 +1,6 @@
 import control.WindowController;
+import io.FileIO;
+import io.InstanceManager;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -7,8 +9,18 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class App {
+    private static InstanceManager instanceManager;
+    private static WindowController windowController;
+    private static FileIO fileSystem;
     public static void main(String[] args) {
-        WindowController windowController = new WindowController();
+        instanceManager = new InstanceManager();
+        windowController = new WindowController();
+        instanceManager.setWindowController(windowController);
+        run(instanceManager.getWindowController());
+    }
+
+    public static void run(WindowController windowController){
+        fileSystem = new FileIO(windowController);
         JFrame frame = new JFrame("GameX");
 
         createMenu(frame, windowController);
@@ -18,7 +30,7 @@ public class App {
         frame.addKeyListener(windowController.getKeyController());
         frame.pack();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setResizable(true);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
@@ -33,18 +45,17 @@ public class App {
         JMenu fileMenu = new JMenu("File");
         JMenu gameMenu = new JMenu("Game");
         JMenu saveMenu = new JMenu("Save");
+        JMenu loadMenu = new JMenu("Load");
 
         menuBar.add(fileMenu);
         menuBar.add(gameMenu);
         menuBar.add(saveMenu);
-
-        menuBar.add(fileMenu);
-        menuBar.add(gameMenu);
-        menuBar.add(saveMenu);
+        menuBar.add(loadMenu);
 
         addFileMenuItems(fileMenu);
         addGameMenuItems(gameMenu, windowController);
         addSaveMenuItems(saveMenu);
+        addLoadMenuItems(loadMenu);
     }
 
     public static void registerWindowListener(JFrame frame) {
@@ -113,7 +124,7 @@ public class App {
         save1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // save state 1
+                fileSystem.saveFileJBP("state1.xml");
             }
         });
         JMenuItem save2 = new JMenuItem("state 2");
@@ -121,16 +132,29 @@ public class App {
         save2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // save state 2
+                fileSystem.saveFileJBP("state2.xml");
+            }
+        });
+    }
+
+    public static void addLoadMenuItems(JMenu loadMenu){
+        JMenuItem save1 = new JMenuItem("state 1");
+        loadMenu.add(save1);
+        save1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                instanceManager.setWindowController(fileSystem.loadFileJBP("state1.xml"));
+                run(instanceManager.getWindowController());
             }
         });
 
-        JMenuItem save3 = new JMenuItem("state 3");
-        saveMenu.add(save3);
-        save3.addActionListener(new ActionListener() {
+        JMenuItem save2 = new JMenuItem("state 2");
+        loadMenu.add(save2);
+        save2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // save state 3
+                instanceManager.setWindowController(fileSystem.loadFileJBP("state2.xml"));
+                run(instanceManager.getWindowController());
             }
         });
     }
