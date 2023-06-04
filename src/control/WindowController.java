@@ -49,7 +49,8 @@ public class WindowController extends JPanel {
      * von Leni Attribute
      */
     public static final String IMAGE_DIR = "../images/";
-    private final Dimension prefSize = new Dimension(960, 576);
+//    private final Dimension prefSize = new Dimension(960, 576);
+    private final Dimension prefSize = new Dimension(1268, 708);
     private final int bottomBorder = prefSize.height - 48;
 
     private ImageIcon backgroundImage;
@@ -63,14 +64,19 @@ public class WindowController extends JPanel {
 
 
     public WindowController() {
-        this.hero = new Hero(0, prefSize.height - 48 * 2);//, heroAnimation, imageLoader.getSpriteSubImage(3, 4, 24, 24)
-        this.gameX = new GameX(hero);
-        this.gameX.setWindowController(this);
+//        this.hero = new Hero(0, prefSize.height - 48 * 2);//TODO hier wieder ein Hero
+        //eingefuegt von Weijie
         this.camera = new Camera();
         this.imageLoader = new ImageLoader();
-        this.keyController = new KeyController(gameX);
         this.mapController = new MapController();
+        this.gameX = new GameX();
+        this.gameX.setWindowController(this);
+        this.keyController = new KeyController(gameX);
+        createMap("Map 1.png");
+        this.hero = mapController.getHero();
+        gameX.setHero(this.hero);
         setPreferredSize(prefSize);
+        //eingefuegt von Weijie
 
         initGame();
         startGame();
@@ -233,8 +239,9 @@ public class WindowController extends JPanel {
     }
 
     private void initGame() {
-        repaint();
-        createMap("Map 1.png");
+//        repaint();
+//        createMap("Map 1.png");
+
         t = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

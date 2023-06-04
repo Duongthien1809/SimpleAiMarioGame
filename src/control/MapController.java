@@ -239,14 +239,11 @@ public class MapController {
 
     private void checkBulletContact() {
         ArrayList<Item> toBeRemoved = new ArrayList<>();
-        ArrayList<Bullet> bullets = new ArrayList<>();
-        ArrayList<Enemy> enemies = new ArrayList<>();
-        ArrayList<Block> blocks = new ArrayList<>();
 
-        for (Bullet bullet : bullets) {
+        for (Bullet bullet : map.getBullets()) {
             Rectangle fireballBounds = bullet.getBounds();
 
-            for (Enemy enemy : enemies) {
+            for (Enemy enemy : map.getEnemies()) {
                 Rectangle enemyBounds = enemy.getBounds();
                 if (fireballBounds.intersects(enemyBounds)) {
                     toBeRemoved.add(enemy);
@@ -254,7 +251,7 @@ public class MapController {
                 }
             }
 
-            for (Block block : blocks) {
+            for (Block block : map.getAllBlocks()) {
                 Rectangle blockBounds = block.getBounds();
                 if (fireballBounds.intersects(blockBounds)) {
                     toBeRemoved.add(bullet);

@@ -79,9 +79,6 @@ public class Hero extends Item {
         else if(camera.getX() < getX()){
             setVelocityX(-5);
         }
-        else {
-            setVelocityX(-5);
-        }
 
         this.towardsRight = towardsRight;
     }

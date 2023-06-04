@@ -7,9 +7,6 @@ public class GameX {
     private Status status = Status.RUNNING;
     private Hero hero;
     private WindowController windowController;
-    public GameX(Hero hero) {
-        this.hero = hero;
-    }
 
     public Status getStatus() {
         return status;
@@ -39,5 +36,9 @@ public class GameX {
     }
     public void setStatus(Status gameStatus) {
         this.status = gameStatus;
+    }
+
+    public void setHero(Hero hero) {
+        this.hero = hero;
     }
 }
