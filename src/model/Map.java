@@ -76,21 +76,21 @@ public class Map {
 
     public void drawMap(Graphics2D g2) {
         drawBackground(g2);
-        drawPrizes(g2);
+        drawAwards(g2);
         drawBlocks(g2);
         drawEnemies(g2);
-        drawFireballs(g2);
+        drawBullets(g2);
         drawHero(g2);
         endPoint.draw(g2);
     }
 
-    private void drawFireballs(Graphics2D g2) {
+    private void drawBullets(Graphics2D g2) {
         for (Bullet bullet : bullets) {
             bullet.draw(g2);
         }
     }
 
-    private void drawPrizes(Graphics2D g2) {
+    private void drawAwards(Graphics2D g2) {
         for (Award score : awards) {
             if (score instanceof X) {
                 ((X) score).draw(g2);
