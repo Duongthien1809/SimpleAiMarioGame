@@ -1,14 +1,9 @@
 package control;
 
-import model.Item;
-import model.block.Magic;
 import model.enemy.Enemy;
-import model.enemy.Mushroom;
 import model.hero.Bullet;
 import model.hero.Hero;
 import model.block.Block;
-import model.block.Ground;
-import model.block.Normal;
 import model.prize.Award;
 import model.prize.X;
 import view.Animation;
@@ -19,7 +14,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class WindowController extends JPanel {
@@ -27,15 +21,13 @@ public class WindowController extends JPanel {
      * von Weijie und Thien Atributte
      */
     private GameX gameX;
-    private Hero hero;
-    private Animation heroAnimation;
     private Hero injuredHero;
     private ArrayList<Block> blocks = new ArrayList<>();
     private ArrayList<Enemy> enemies = new ArrayList<>();
 
     private ArrayList<Award> awards = new ArrayList<>();
 
-    private ImageLoader imageLoader = new ImageLoader();
+    private ImageLoader imageLoader;
 
     private KeyController keyController;
 
@@ -49,7 +41,7 @@ public class WindowController extends JPanel {
      * von Leni Attribute
      */
     public static final String IMAGE_DIR = "../images/";
-//    private final Dimension prefSize = new Dimension(960, 576);
+    //    private final Dimension prefSize = new Dimension(960, 576);
     private final Dimension prefSize = new Dimension(1268, 708);
     private final int bottomBorder = prefSize.height - 48;
 
@@ -57,14 +49,12 @@ public class WindowController extends JPanel {
     private final String background = "sky.jpg";
 
     private boolean gameOver = false;
-    private int counter = 3600;
+    private int counter = 500;
     private Timer t;
     private boolean isRunning;
-    private Thread thread;
 
 
     public WindowController() {
-//        this.hero = new Hero(0, prefSize.height - 48 * 2);//TODO hier wieder ein Hero
         //eingefuegt von Weijie
         this.camera = new Camera();
         this.imageLoader = new ImageLoader();
@@ -73,8 +63,7 @@ public class WindowController extends JPanel {
         this.gameX.setWindowController(this);
         this.keyController = new KeyController(gameX);
         createMap("Map 1.png");
-        this.hero = mapController.getHero();
-        gameX.setHero(this.hero);
+        gameX.setHero(mapController.getHero());
         setPreferredSize(prefSize);
         //eingefuegt von Weijie
 
@@ -102,34 +91,10 @@ public class WindowController extends JPanel {
         g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 19));
         g.setColor(Color.BLACK);
         g.drawString("Time:" + counter, prefSize.width - 100, 20);
-
-//        for (Block block : blocks) {
-//            block.draw(g2);
-//        }
-//
-//        for (Award award : awards) {
-//            if (award instanceof X) {
-//                ((X) award).draw(g2);
-//            }
-//        }
-//
-//        for (Enemy enemy : enemies) {
-//            enemy.draw(g2);
-//        }
-//
-//        for (Bullet bullet : bullets) {
-//            bullet.draw(g2);
-//        }
-//
-//        hero.draw(g2);
-//        if (injuredHero != null) {
-//            injuredHero.draw(g2);
-//            injuredHero.setY(injuredHero.getY() - 2);
-//            if (injuredHero.getY() < 0) {
-//                injuredHero = null;
-//            }
-//        }
+        Point camLocation = this.getCameraLocation();
+        g2.translate(-camLocation.x, -camLocation.y);
         mapController.drawMap(g2);
+        g2.translate(camLocation.x, camLocation.y);
         g2.dispose();
     }
 
@@ -152,9 +117,8 @@ public class WindowController extends JPanel {
     }
 
     public void updateLocations() {
-        hero.updateLocation();
-        mapController.checkCollisions(this);
         mapController.updateLocations();
+        mapController.checkCollisions(this);
         updateCamera();
     }
 
@@ -162,7 +126,6 @@ public class WindowController extends JPanel {
         Hero hero = mapController.getHero();
         double heroVelocityX = hero.getVelocityX();
         double shiftAmount = 0;
-
         if (heroVelocityX > 0 && hero.getX() - 600 > camera.getX()) {
             shiftAmount = heroVelocityX;
         }
@@ -189,6 +152,7 @@ public class WindowController extends JPanel {
     }
 
     public void shoot() {
+        Hero hero = mapController.getHero();
         Bullet bullet = hero.shoot(hero.isTowardsRight(), hero.getX(), hero.getY() - 36);
         if (bullet != null) {
             bullets.add(bullet);
@@ -199,32 +163,6 @@ public class WindowController extends JPanel {
         return new X(x, y, this.x, 0);
     }
 
-
-    //    private void createGameObjects() {
-//        // hier werden wir später die Spielobjekte erzeugen
-//        this.groundBlock = imageLoader.getSpriteSubImage(2, 2, 48, 48);
-//        for (int i = 0; i <= prefSize.width; i += 48) {
-//            blocks.add(new Ground(i, bottomBorder, this.groundBlock));
-//        }
-//
-//        //two normal blocks for testing jumping
-//        this.normalBlock = imageLoader.getSpriteSubImage(1, 1, 48, 48);
-//        blocks.add(new Normal(48 * 2, prefSize.height - 48 * 3, this.normalBlock));
-//
-//        this.magicBlock = imageLoader.getSpriteSubImage(2, 1, 48, 48);
-//        this.emptyBlock = imageLoader.getSpriteSubImage(1, 2, 48, 48);
-//        this.x = imageLoader.getSpriteSubImage(1, 5, 48, 48);
-//        Award award = generateAward(48 * 6, prefSize.height - 48 * 5);
-//        awards.add(award);
-//        blocks.add(new Magic(48 * 6, prefSize.height - 48 * 4, this.magicBlock, this.emptyBlock, award));
-//
-//        this.mushroomLeft = imageLoader.getSpriteSubImage(2, 4, 48, 48);
-//        this.mushroomRight = imageLoader.getSpriteSubImage(5, 4, 48, 48);
-//        //two normal blocks for testing enemy interaction
-//        blocks.add(new Normal(48 * 9, prefSize.height - 48 * 2, this.normalBlock));
-//        enemies.add(new Mushroom(48 * 10, prefSize.height - 48 * 2, this.mushroomLeft, this.mushroomRight));
-//        blocks.add(new Normal(48 * 15, prefSize.height - 48 * 2, this.normalBlock));
-//    }
     public ImageLoader getImageLoader() {
         return imageLoader;
     }
@@ -239,9 +177,6 @@ public class WindowController extends JPanel {
     }
 
     private void initGame() {
-//        repaint();
-//        createMap("Map 1.png");
-
         t = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -250,7 +185,7 @@ public class WindowController extends JPanel {
         });
     }
 
-    private void startGame() {
+    private synchronized void startGame() {
         if (isRunning)
             return;
 
@@ -309,7 +244,6 @@ public class WindowController extends JPanel {
             lastTime = now;
             while (delta >= 1) {
                 if (gameX.getStatus() == Status.RUNNING) {
-                    updateLocations();
                     gameLoop();
                 }
                 delta--;

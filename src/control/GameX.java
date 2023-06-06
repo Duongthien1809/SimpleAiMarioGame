@@ -32,8 +32,6 @@ public class GameX {
                 windowController.shoot();
             }
         }
-        windowController.updateLocations();
-        windowController.render();
     }
     public void setStatus(Status gameStatus) {
         this.status = gameStatus;

@@ -79,26 +79,9 @@ public class Hero extends Item {
         else if(camera.getX() < getX()){
             setVelocityX(-5);
         }
-
+        System.out.println();
         this.towardsRight = towardsRight;
     }
-
-    public boolean isTowardsRight() {
-        return towardsRight;
-    }
-
-
-
-    public Bullet shoot(boolean towardsRight, double x, double y) {
-        if (isArmed) {
-            return new Bullet(x, y + 48, bulletStyle, towardsRight);
-        }
-        return null;
-    }
-    public void acquirePoints(int point){
-        points = points + point;
-    }
-
     public boolean onTouchEnemy(){
 /*        if(!marioForm.isSuper() && !marioForm.isFire()){
             remainingLives--;
@@ -115,6 +98,22 @@ public class Hero extends Item {
         System.out.println(remainingLives);
         return remainingLives > 0;
     }
+    public boolean isTowardsRight() {
+        return towardsRight;
+    }
+
+
+
+    public Bullet shoot(boolean towardsRight, double x, double y) {
+        if (isArmed) {
+            return new Bullet(x, y + 48, bulletStyle, towardsRight);
+        }
+        return null;
+    }
+    public void acquirePoints(int point){
+        points = points + point;
+    }
+
     public int getRemainingLives() {
         return remainingLives;
     }
