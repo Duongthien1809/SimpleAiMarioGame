@@ -85,7 +85,7 @@ public class Hero extends Item {
     }
 
     private int remainingLives = 3;
-    public boolean onTouchEnemy(){
+    public void onTouchEnemy(){
 /*        if(!marioForm.isSuper() && !marioForm.isFire()){
             remainingLives--;
             engine.playMarioDies();
@@ -99,6 +99,5 @@ public class Hero extends Item {
         }*/
         remainingLives--;
         System.out.println(remainingLives);
-        return remainingLives > 0;
     }
 }

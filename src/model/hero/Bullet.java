@@ -13,8 +13,9 @@ public class Bullet extends Item {
         setJumping(false);
         setVelocityX(10);
 
-        if(!toRight)
-            setVelocityX(-5);
+        if(!toRight){
+            setVelocityX(-10);
+        }
     }
 }
 

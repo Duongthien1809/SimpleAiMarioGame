@@ -249,7 +249,8 @@ public class WindowController extends JPanel {
         for(Enemy enemy : enemies){
             Rectangle enemyBounds = !towardsRight ? enemy.getRightBounds() : enemy.getLeftBounds();
             if (marioBounds.intersects(enemyBounds)) {
-                isInjured = hero.onTouchEnemy();
+                hero.onTouchEnemy();
+                isInjured = true;
                 toBeRemoved.add(enemy);
             }
         }
@@ -259,7 +260,6 @@ public class WindowController extends JPanel {
             injuredHero = new Hero(hero.getX(), hero.getY() - 48, heroAnimation, imageLoader.getSpriteSubImage(3, 4, 24, 24));
             injuredHero.setJumping(false);
             injuredHero.setFalling(false);
-            injuredHero.setVelocityY(-3);
         }
         //camera
     }

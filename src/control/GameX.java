@@ -2,6 +2,7 @@ package control;
 
 import model.hero.Hero;
 
+
 public class GameX {
     private Status status = Status.RUNNING;
     private Hero hero;
