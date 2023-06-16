@@ -5,9 +5,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
 
 public class App {
+
     public static void main(String[] args) {
+        //TODO: Stream manipulate
+        InputStream in = System.in;
+        PrintStream out = System.out;
+        String cmds = "     ";
+
+        ByteArrayInputStream bis = new ByteArrayInputStream(cmds.getBytes());
+        System.setIn(bis);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(bos));
+
         WindowController windowController = new WindowController();
         JFrame frame = new JFrame("GameX");
 

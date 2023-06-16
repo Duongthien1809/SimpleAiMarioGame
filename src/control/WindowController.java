@@ -1,40 +1,24 @@
 package control;
 
-import model.enemy.Enemy;
 import model.hero.Bullet;
 import model.hero.Hero;
-import model.block.Block;
-import model.prize.Award;
-import model.prize.X;
-import view.Animation;
 import view.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class WindowController extends JPanel {
     /**
      * von Weijie und Thien Atributte
      */
     private GameX gameX;
-    private Hero injuredHero;
-    private ArrayList<Block> blocks = new ArrayList<>();
-    private ArrayList<Enemy> enemies = new ArrayList<>();
-
-    private ArrayList<Award> awards = new ArrayList<>();
 
     private ImageLoader imageLoader;
 
     private KeyController keyController;
 
-    private BufferedImage normalBlock, magicBlock, emptyBlock, groundBlock;
-    private BufferedImage x;
-    private BufferedImage mushroomLeft, mushroomRight;
-    private ArrayList<Bullet> bullets = new ArrayList<>();
     private MapController mapController;
     private Camera camera;
     /**
@@ -88,13 +72,20 @@ public class WindowController extends JPanel {
         }
         // backgroundImage.paintIcon(null, g, 0, 0);
 
-        g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 19));
-        g.setColor(Color.BLACK);
-        g.drawString("Time:" + counter, prefSize.width - 100, 20);
         Point camLocation = this.getCameraLocation();
         g2.translate(-camLocation.x, -camLocation.y);
         mapController.drawMap(g2);
+        for (Bullet bullet : mapController.getBullets()){
+            bullet.draw(g2);
+        }
         g2.translate(camLocation.x, camLocation.y);
+
+        g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 19));
+        g.setColor(Color.BLACK);
+        g.drawString("Time:" + counter, prefSize.width - 100, 20);
+        g.drawString("Score:" + mapController.getHero().getPoints(), prefSize.width - 300, 20);
+        g.drawString("Life:" + mapController.getHero().getRemainingLives(), prefSize.width - 500, 20);
+
         g2.dispose();
     }
 
@@ -137,7 +128,7 @@ public class WindowController extends JPanel {
         boolean loaded = mapController.createMap(imageLoader, path);
         if (loaded) {
             gameX.setStatus(Status.RUNNING);
-//            soundManager.restartBackground();
+//            soundController.restartBackground();
         } else
             gameX.setStatus(Status.START_SCREEN);
     }
@@ -153,14 +144,11 @@ public class WindowController extends JPanel {
 
     public void shoot() {
         Hero hero = mapController.getHero();
+        System.out.println("heroX: " + hero.getX() + ", heroY: " + hero.getY());
         Bullet bullet = hero.shoot(hero.isTowardsRight(), hero.getX(), hero.getY() - 36);
         if (bullet != null) {
-            bullets.add(bullet);
+            mapController.addBullet(bullet);
         }
-    }
-
-    private Award generateAward(double x, double y) {
-        return new X(x, y, this.x, 0);
     }
 
     public ImageLoader getImageLoader() {
@@ -169,11 +157,19 @@ public class WindowController extends JPanel {
 
     public void resetCamera() {
         camera = new Camera();
-//        soundManager.restartBackground();
+//        soundController.restartBackground();
     }
 
     public Camera getCamera() {
         return camera;
+    }
+
+    public void resetCounter(){
+        counter = 500;
+    }
+
+    public void resetScore(){
+        mapController.getHero().resetPoints();
     }
 
     private void initGame() {
@@ -185,13 +181,15 @@ public class WindowController extends JPanel {
         });
     }
 
-    private synchronized void startGame() {
+    private void startGame() {
         if (isRunning)
             return;
 
         isRunning = true;
 
         t.start();
+
+        MusicPlayer.resetBackground();
     }
 
     public void pauseGame() {
@@ -223,8 +221,12 @@ public class WindowController extends JPanel {
 
     public void countDown() {
         counter--;
-        if (counter == 0)
+        if (mapController.getHero().getPoints() > 0){
+            mapController.getHero().setPoints(mapController.getHero().getPoints() - 1);
+        }
+        if (counter == 0){
             endGame();
+        }
         repaint();
     }
 

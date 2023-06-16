@@ -10,12 +10,12 @@ import model.prize.X;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Map {
 
     private double remainingTime;
     private Hero hero;
+    private Hero deadHero;
     private ArrayList<Block> blocks = new ArrayList<>();
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Block> groundBlocks = new ArrayList<>();
@@ -25,7 +25,6 @@ public class Map {
     private BufferedImage backgroundImage;
     private double bottomBorder = 720 - 96;
     private String path;
-
 
     public Map(double remainingTime, BufferedImage backgroundImage) {
         this.backgroundImage = backgroundImage;
@@ -41,16 +40,24 @@ public class Map {
         this.hero = hero;
     }
 
+    public Hero getDeadHero() {
+        return deadHero;
+    }
+
+    public void setDeadHero(Hero deadHero) {
+        this.deadHero = deadHero;
+    }
+
     public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
 
-    public ArrayList<Bullet> getBullets() {
-        return bullets;
-    }
-
     public ArrayList<Award> getAwards() {
         return awards;
+    }
+
+    public ArrayList<Bullet> getBullets() {
+        return bullets;
     }
 
     public ArrayList<Block> getAllBlocks() {
@@ -74,26 +81,28 @@ public class Map {
         this.enemies.add(enemy);
     }
 
-    public void drawMap(Graphics2D g2) {
+
+    public synchronized void drawMap(Graphics2D g2) {
         drawBackground(g2);
         drawAwards(g2);
         drawBlocks(g2);
         drawEnemies(g2);
-        drawBullets(g2);
+//        drawBullets(g2);
         drawHero(g2);
+        if (deadHero != null){
+            deadHero.draw(g2);
+            deadHero.setY(deadHero.getY() - 4);
+            if (deadHero.getY() < 0){
+                deadHero = null;
+            }
+        }
         endPoint.draw(g2);
     }
 
-    private void drawBullets(Graphics2D g2) {
-        for (Bullet bullet : bullets) {
-            bullet.draw(g2);
-        }
-    }
-
-    private void drawAwards(Graphics2D g2) {
-        for (Award score : awards) {
-            if (score instanceof X) {
-                ((X) score).draw(g2);
+    private synchronized void drawAwards(Graphics2D g2) {
+        for (Award award : awards) {
+            if (award instanceof X) {
+                ((X) award).draw(g2);
             }
             //kann weitere gift hier erzeugt werden
         }
@@ -125,13 +134,14 @@ public class Map {
         hero.draw(g2);
     }
 
-    public void updateLocations() {
+    public synchronized void updateLocations() {
         hero.updateLocation();
+
         for (Enemy enemy : enemies) {
             enemy.updateLocation();
         }
 
-        for (Iterator<Award> scoreIterator = awards.iterator(); scoreIterator.hasNext(); ) {
+/*        for (Iterator<Award> scoreIterator = awards.iterator(); scoreIterator.hasNext(); ) {
             Award score = scoreIterator.next();
             if (score instanceof X) {
                 ((X) score).updateLocation();
@@ -139,11 +149,30 @@ public class Map {
                     scoreIterator.remove();
                 }
             }
+        }*/
+        ArrayList<Award> toBeRemovedAwards = new ArrayList<>();
+        for (Award award : awards){
+            if (award instanceof X){
+                ((X) award).updateLocation();
+                //TODO:
+/*                if (((X) award).getRevealBoundary() > ((X) award).getY()){
+                    toBeRemovedAwards.add(award);
+                }*/
+                if (((X) award).getY() < 0){
+                    toBeRemovedAwards.add(award);
+                }
+            }
         }
+        awards.removeAll(toBeRemovedAwards);
 
-        for (Bullet bullet : bullets) {
+        ArrayList<Bullet> toBeRemovedBullets = new ArrayList<>();
+        for (Bullet bullet : bullets){
+            if (bullet.getDistance() > 300){
+                toBeRemovedBullets.add(bullet);
+            }
             bullet.updateLocation();
         }
+        bullets.removeAll(toBeRemovedBullets);
 
         endPoint.updateLocation();
     }
@@ -152,7 +181,7 @@ public class Map {
         return bottomBorder;
     }
 
-    public void addXScore(Award score) {
+    public synchronized void addAward(Award score) {
         awards.add(score);
     }
 

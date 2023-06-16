@@ -28,16 +28,19 @@ public class MapController {
 
     public void resetCurrentMap(WindowController windowController) {
         Hero hero = getHero();
+        hero.resetRemainingLives();
         hero.resetLocation();
         windowController.resetCamera();
+        windowController.resetCounter();
+        windowController.resetScore();
         createMap(windowController.getImageLoader(), map.getPath());
         map.setHero(hero);
+        MusicPlayer.resetBackground();
     }
 
     public boolean createMap(ImageLoader loader, String path) {
         MapCreator mapCreator = new MapCreator(loader);
         map = mapCreator.createMap("/maps/" + path, 400);
-
         return map != null;
     }
 
@@ -63,6 +66,15 @@ public class MapController {
 
     public int getCoins() {
         return map.getHero().getCoins();
+    }
+
+
+    public void addBullet(Bullet bullet){
+        map.addBullet(bullet);
+    }
+
+    public ArrayList<Bullet> getBullets(){
+        return map.getBullets();
     }
 
     public void drawMap(Graphics2D g2) {
@@ -114,6 +126,8 @@ public class MapController {
         for (Enemy enemy : enemies) {
             Rectangle enemyTopBounds = enemy.getTopBounds();
             if (heroBottomBounds.intersects(enemyTopBounds)) {
+                MusicPlayer.playStomp();
+                acquirePoints(50);
                 toBeRemoved.add(enemy);
             }
         }
@@ -130,7 +144,6 @@ public class MapController {
     private void checkTopCollisions() {
         Hero hero = getHero();
         ArrayList<Block> blocks = map.getAllBlocks();
-        ArrayList<Award> awards = map.getAwards();
         Rectangle marioTopBounds = hero.getTopBounds();
 
         for (Block block : blocks) {
@@ -140,7 +153,9 @@ public class MapController {
                 hero.setY(block.getY() + block.getDimension().height);
                 Award award = block.reveal();
                 if (award != null) {
-                    awards.add(award);
+                    acquirePoints(50);
+                    map.addAward(award);
+                    MusicPlayer.playAcquireX();
                 }
             }
         }
@@ -156,8 +171,8 @@ public class MapController {
         Rectangle marioBounds = towardsRight ? hero.getRightBounds() : hero.getLeftBounds();
 
         for (Block block : blocks) {
-            Rectangle brickBounds = !towardsRight ? block.getRightBounds() : block.getLeftBounds();
-            if (marioBounds.intersects(brickBounds)) {
+            Rectangle blockBounds = !towardsRight ? block.getRightBounds() : block.getLeftBounds();
+            if (marioBounds.intersects(blockBounds)) {
                 hero.setVelocityX(0);
                 if (towardsRight)
                     hero.setX(block.getX() - hero.getDimension().width);
@@ -171,31 +186,33 @@ public class MapController {
         for (Enemy enemy : enemies) {
             Rectangle enemyBounds = !towardsRight ? enemy.getRightBounds() : enemy.getLeftBounds();
             if (marioBounds.intersects(enemyBounds)) {
-                isInjured = hero.onTouchEnemy();
+                hero.onTouchEnemy();
+                isInjured = true;
                 toBeRemoved.add(enemy);
             }
         }
+
         removeObjects(toBeRemoved);
 
-//        if (isInjured) {
-//            injuredHero = new Hero(hero.getX(), hero.getY() - 48);
-//            injuredHero.setJumping(false);
-//            injuredHero.setFalling(false);
-//            injuredHero.setVelocityY(-3);
-//        }
+        if (isInjured) {
+            Hero deadHero = new Hero(getHero().getX(), getHero().getY() - 48, null);
+            deadHero.setJumping(false);
+            deadHero.setFalling(false);
+            map.setDeadHero(deadHero);
+        }
+
+        if (getRemainingLives() <= 0) {
+            resetCurrentMap(windowController);
+        }
+
         //camera
         if (hero.getX() <= windowController.getCameraLocation().getX() && hero.getVelocityX() < 0) {
             hero.setVelocityX(0);
             hero.setX(windowController.getCameraLocation().getX());
         }
-
-        if (isInjured) {
-            resetCurrentMap(windowController);
-        }
     }
 
     private void checkEnemyCollisions() {
-        Hero hero = getHero();
         ArrayList<Block> blocks = map.getAllBlocks();
         ArrayList<Enemy> enemies = map.getEnemies();
         for (Enemy enemy : enemies) {
@@ -241,25 +258,23 @@ public class MapController {
         ArrayList<Item> toBeRemoved = new ArrayList<>();
 
         for (Bullet bullet : map.getBullets()) {
-            Rectangle fireballBounds = bullet.getBounds();
+            Rectangle bulletBounds = bullet.getBounds();
 
             for (Enemy enemy : map.getEnemies()) {
                 Rectangle enemyBounds = enemy.getBounds();
-                if (fireballBounds.intersects(enemyBounds)) {
+                if (bulletBounds.intersects(enemyBounds)) {
                     toBeRemoved.add(enemy);
+                    MusicPlayer.playStomp();
+                    acquirePoints(50);
                     toBeRemoved.add(bullet);
                 }
             }
 
             for (Block block : map.getAllBlocks()) {
                 Rectangle blockBounds = block.getBounds();
-                if (fireballBounds.intersects(blockBounds)) {
+                if (bulletBounds.intersects(blockBounds)) {
                     toBeRemoved.add(bullet);
                 }
-            }
-
-            if (bullet.getX() < 0 || bullet.getX() > prefSize.width) {
-                toBeRemoved.add(bullet);
             }
         }
         removeObjects(toBeRemoved);
@@ -273,11 +288,10 @@ public class MapController {
         for (Award award : awards) {
             Rectangle awardBounds = award.getBounds();
             if (awardBounds.intersects(heroBounds)) {
-                award.onTouch();
+                award.onTouch(hero);
                 toBeRemoved.add((Item) award);
             }
         }
-
         removeObjects(toBeRemoved);
     }
 

@@ -31,8 +31,5 @@ public class Magic extends Block{
         this.award = null;
         return toReturn;
     }
-    public Award getAward(){
-        return award;
-    }
 }
 

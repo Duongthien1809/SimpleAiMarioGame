@@ -1,6 +1,7 @@
 package model.hero;
 
 import control.Camera;
+import control.MusicPlayer;
 import model.Item;
 import view.Animation;
 import view.ImageLoader;
@@ -17,13 +18,10 @@ public class Hero extends Item {
     private int points;
     private int coins;
 
-    public Hero(double x, double y) {
+    public Hero(double x, double y, BufferedImage bulletStyle) {
         super(x, y, null);
 
         //init point
-        remainingLives = 3;
-        coins = 0;
-        points = 0;
         setDimension(48, 48);
         this.bulletStyle = bulletStyle;
         this.isArmed = true;//TODO: isArmed should be false by default
@@ -68,6 +66,7 @@ public class Hero extends Item {
         if (!isJumping() && !isFalling()) {
             setJumping(true);
             setVelocityY(10);
+            MusicPlayer.playJump();
         }
     }
 
@@ -82,7 +81,7 @@ public class Hero extends Item {
         System.out.println();
         this.towardsRight = towardsRight;
     }
-    public boolean onTouchEnemy(){
+    public void onTouchEnemy(){
 /*        if(!marioForm.isSuper() && !marioForm.isFire()){
             remainingLives--;
             engine.playMarioDies();
@@ -95,17 +94,15 @@ public class Hero extends Item {
             return false;
         }*/
         remainingLives--;
-        System.out.println(remainingLives);
-        return remainingLives > 0;
+        MusicPlayer.playHeroDies();
     }
     public boolean isTowardsRight() {
         return towardsRight;
     }
 
-
-
     public Bullet shoot(boolean towardsRight, double x, double y) {
         if (isArmed) {
+            MusicPlayer.playShoot();
             return new Bullet(x, y + 48, bulletStyle, towardsRight);
         }
         return null;
@@ -135,5 +132,17 @@ public class Hero extends Item {
         setX(50);
         setJumping(false);
         setFalling(true);
+    }
+
+    public void resetRemainingLives() {
+        remainingLives = 3;
+    }
+
+    public void resetPoints(){
+        points = 0;
+    }
+
+    public void setPoints(int points){
+        this.points = points;
     }
 }

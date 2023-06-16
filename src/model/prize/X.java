@@ -1,6 +1,8 @@
 package model.prize;
 
+import control.MusicPlayer;
 import model.Item;
+import model.hero.Hero;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -31,11 +33,12 @@ public class X extends Item implements Award{
     }
 
     @Override
-    public void onTouch() {
+    public void onTouch(Hero hero) {
         if(!acquired){
             acquired = true;
-//            mario.acquirePoints(point);
+            hero.acquirePoints(point);
 //            mario.acquireCoin();
+//            MusicPlayer.playAcquireX();
         }
     }
 
