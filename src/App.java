@@ -12,18 +12,7 @@ import java.io.PrintStream;
 
 public class App {
 
-    public static void main(String[] args) {
-        //TODO: Stream manipulate
-        InputStream in = System.in;
-        PrintStream out = System.out;
-        String cmds = "     ";
-
-        ByteArrayInputStream bis = new ByteArrayInputStream(cmds.getBytes());
-        System.setIn(bis);
-
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(bos));
-
+    public static void run() {
         WindowController windowController = new WindowController();
         JFrame frame = new JFrame("GameX");
 
