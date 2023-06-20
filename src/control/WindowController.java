@@ -144,7 +144,6 @@ public class WindowController extends JPanel {
 
     public void shoot() {
         Hero hero = mapController.getHero();
-        System.out.println("heroX: " + hero.getX() + ", heroY: " + hero.getY());
         Bullet bullet = hero.shoot(hero.isTowardsRight(), hero.getX(), hero.getY() - 36);
         if (bullet != null) {
             mapController.addBullet(bullet);
