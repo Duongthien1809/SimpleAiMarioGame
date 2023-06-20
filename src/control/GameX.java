@@ -1,15 +1,13 @@
 package control;
 
 import model.hero.Hero;
+import view.ImageLoader;
+
 
 public class GameX {
     private Status status = Status.RUNNING;
     private Hero hero;
     private WindowController windowController;
-
-    public GameX(Hero hero) {
-        this.hero = hero;
-    }
 
     public Status getStatus() {
         return status;
@@ -20,21 +18,26 @@ public class GameX {
     }
 
     public void receiveInput(Key key) {
-        System.out.println(key);
+//        System.out.println(key);
         if (status == Status.RUNNING) {
             if (key == Key.JUMP) {
                 hero.jump();
             } else if (key == Key.M_RIGHT) {
-                hero.move(true);
+                hero.move(true, windowController.getCamera());
             } else if (key == Key.M_LEFT) {
-                hero.move(false);
+                hero.move(false, windowController.getCamera());
             } else if (key == Key.ACTION_COMPLETED) {
                 hero.setVelocityX(0);
             } else if (key == Key.SHOOT) {
                 windowController.shoot();
             }
         }
-        windowController.updateLocations();
-        windowController.render();
+    }
+    public void setStatus(Status gameStatus) {
+        this.status = gameStatus;
+    }
+
+    public void setHero(Hero hero) {
+        this.hero = hero;
     }
 }

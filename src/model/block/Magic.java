@@ -1,6 +1,8 @@
 package model.block;
 
 import model.prize.Award;
+import view.Animation;
+import view.ImageLoader;
 
 import java.awt.image.BufferedImage;
 
@@ -28,10 +30,6 @@ public class Magic extends Block{
         Award toReturn = this.award;
         this.award = null;
         return toReturn;
-    }
-
-    public Award getAward(){
-        return award;
     }
 }
 

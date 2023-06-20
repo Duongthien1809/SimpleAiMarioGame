@@ -2,9 +2,10 @@ package control;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.Serializable;
 
 
-public class KeyController implements KeyListener {
+public class KeyController implements KeyListener{
     private GameX gameX;
 
     public KeyController(GameX gameX) {

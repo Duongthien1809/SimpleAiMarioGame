@@ -1,5 +1,7 @@
 package model.prize;
 
+import model.hero.Hero;
+
 import java.awt.*;
 
 public interface Award {
@@ -10,5 +12,5 @@ public interface Award {
 
     Rectangle getBounds();
 
-    void onTouch();
+    void onTouch(Hero hero);
 }

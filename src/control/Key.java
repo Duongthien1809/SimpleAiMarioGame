@@ -1,5 +1,7 @@
 package control;
 
+import java.io.Serializable;
+
 public enum Key {
     JUMP,
     M_RIGHT,

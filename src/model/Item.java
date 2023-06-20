@@ -2,9 +2,9 @@ package model;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 public abstract class Item {
-
     private double x, y;
 
     private double velocityX, velocityY;

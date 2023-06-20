@@ -1,21 +1,35 @@
 package model.hero;
 
+import control.Camera;
+import control.MusicPlayer;
 import model.Item;
 import view.Animation;
+import view.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Hero extends Item {
-    private Animation animation;
     private boolean towardsRight = true;
+    private Animation animation;
+    private int remainingLives = 3;
+    private boolean isArmed;
+    private BufferedImage bulletStyle;
+    private int points;
+    private int coins;
 
-    public Hero(double x, double y, Animation animation, BufferedImage bulletStyle) {
+    public Hero(double x, double y, BufferedImage bulletStyle) {
         super(x, y, null);
+
+        //init point
         setDimension(48, 48);
-        this.animation = animation;
         this.bulletStyle = bulletStyle;
         this.isArmed = true;//TODO: isArmed should be false by default
+        ImageLoader imageLoader = new ImageLoader();
+        BufferedImage[] leftFrames = imageLoader.getHeroLeftFrames();
+        BufferedImage[] rightFrames = imageLoader.getHeroRightFrames();
+
+        this.animation = new Animation(leftFrames, rightFrames);
         setStyle(getCurrentStyle(towardsRight, false, false));
     }
 
@@ -52,40 +66,22 @@ public class Hero extends Item {
         if (!isJumping() && !isFalling()) {
             setJumping(true);
             setVelocityY(10);
+            MusicPlayer.playJump();
         }
     }
 
     //    public void move(boolean towardsRight, Camera camera) {
-    public void move(boolean towardsRight) {
+    public void move(boolean towardsRight, Camera camera) {
         if (towardsRight) {
             setVelocityX(5);
         }
-//        else if(camera.getX() < getX()){
-//            setVelocityX(-5);
-//        }
-        else {
+        else if(camera.getX() < getX()){
             setVelocityX(-5);
         }
-
+        System.out.println();
         this.towardsRight = towardsRight;
     }
-
-    public boolean isTowardsRight() {
-        return towardsRight;
-    }
-
-    private boolean isArmed;
-    private BufferedImage bulletStyle;
-
-    public Bullet shoot(boolean towardsRight, double x, double y) {
-        if (isArmed) {
-            return new Bullet(x, y + 48, bulletStyle, towardsRight);
-        }
-        return null;
-    }
-
-    private int remainingLives = 3;
-    public boolean onTouchEnemy(){
+    public void onTouchEnemy(){
 /*        if(!marioForm.isSuper() && !marioForm.isFire()){
             remainingLives--;
             engine.playMarioDies();
@@ -98,7 +94,55 @@ public class Hero extends Item {
             return false;
         }*/
         remainingLives--;
-        System.out.println(remainingLives);
-        return remainingLives > 0;
+        MusicPlayer.playHeroDies();
+    }
+    public boolean isTowardsRight() {
+        return towardsRight;
+    }
+
+    public Bullet shoot(boolean towardsRight, double x, double y) {
+        if (isArmed) {
+            MusicPlayer.playShoot();
+            return new Bullet(x, y + 48, bulletStyle, towardsRight);
+        }
+        return null;
+    }
+    public void acquirePoints(int point){
+        points = points + point;
+    }
+
+    public int getRemainingLives() {
+        return remainingLives;
+    }
+
+    public void setRemainingLives(int remainingLives) {
+        this.remainingLives = remainingLives;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+    public void resetLocation() {
+        setVelocityX(0);
+        setVelocityY(0);
+        setX(50);
+        setJumping(false);
+        setFalling(true);
+    }
+
+    public void resetRemainingLives() {
+        remainingLives = 3;
+    }
+
+    public void resetPoints(){
+        points = 0;
+    }
+
+    public void setPoints(int points){
+        this.points = points;
     }
 }

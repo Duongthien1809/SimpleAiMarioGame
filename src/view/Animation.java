@@ -3,7 +3,6 @@ package view;
 import java.awt.image.BufferedImage;
 
 public class Animation {
-
     private int index = 0, count = 0;
     private BufferedImage[] leftFrames, rightFrames;
     private BufferedImage currentFrame;
