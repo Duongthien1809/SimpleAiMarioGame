@@ -7,6 +7,7 @@ import model.enemy.Enemy;
 import model.hero.Bullet;
 import model.hero.Hero;
 import model.prize.Award;
+import view.Animation;
 import view.ImageLoader;
 
 import java.awt.*;
@@ -196,6 +197,7 @@ public class MapController {
 
         if (isInjured) {
             Hero deadHero = new Hero(getHero().getX(), getHero().getY() - 48, null);
+            deadHero.setDead(true);
             deadHero.setJumping(false);
             deadHero.setFalling(false);
             map.setDeadHero(deadHero);

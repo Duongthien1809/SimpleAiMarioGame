@@ -2,12 +2,10 @@ package control;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.Serializable;
 
 
 public class KeyController implements KeyListener{
     private GameX gameX;
-
     public KeyController(GameX gameX) {
         this.gameX = gameX;
     }
@@ -47,13 +45,15 @@ public class KeyController implements KeyListener{
 
     @Override
     public void keyReleased(KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.VK_RIGHT || event.getKeyCode() == KeyEvent.VK_LEFT)
+        if (event.getKeyCode() == KeyEvent.VK_RIGHT || event.getKeyCode() == KeyEvent.VK_LEFT){
             notifyInput(Key.ACTION_COMPLETED);
+        }
     }
 
     private void notifyInput(Key key) {
-        if (key != Key.NO_ACTION)
+        if (key != Key.NO_ACTION){
             gameX.receiveInput(key);
+        }
     }
 
     @Override

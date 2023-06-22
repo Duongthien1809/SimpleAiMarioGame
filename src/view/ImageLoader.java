@@ -35,26 +35,27 @@ public class ImageLoader {
 //    }
 
     public BufferedImage[] getHeroLeftFrames() {
-        BufferedImage[] leftFrames = new BufferedImage[5];
+        BufferedImage[] leftFrames = new BufferedImage[6];
         int col = 1;
         int width = 52, height = 48;
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             leftFrames[i] = heroImage.getSubimage((col - 1) * width, (i) * height, width, height);
         }
         return leftFrames;
     }
 
     public BufferedImage[] getHeroRightFrames() {
-        BufferedImage[] rightFrames = new BufferedImage[5];
+        BufferedImage[] rightFrames = new BufferedImage[6];
         int col = 2;
         int width = 52, height = 48;
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             rightFrames[i] = heroImage.getSubimage((col - 1) * width, (i) * height, width, height);
         }
         return rightFrames;
     }
+
 
     public BufferedImage getSubImage(BufferedImage image, int col, int row, int w, int h) {
         if((col == 1 || col == 4) && row == 3){ //koopa

@@ -14,6 +14,7 @@ public class Hero extends Item {
     private Animation animation;
     private int remainingLives = 3;
     private boolean isArmed;
+    private boolean isDead = false;
     private BufferedImage bulletStyle;
     private int points;
     private int coins;
@@ -35,6 +36,10 @@ public class Hero extends Item {
 
     public BufferedImage getCurrentStyle(boolean towardsRight, boolean movingInX, boolean movingInY) {
         BufferedImage style;
+
+        if (isDead) {
+            return towardsRight ? animation.getRightFrames()[5] : animation.getLeftFrames()[5];
+        }
 
         if (movingInY && towardsRight) {
             style = animation.getRightFrames()[0];
@@ -144,5 +149,13 @@ public class Hero extends Item {
 
     public void setPoints(int points){
         this.points = points;
+    }
+
+    public void setDead(boolean dead) {
+        isDead = dead;
+    }
+
+    public void setAnimation(Animation animation) {
+        this.animation = animation;
     }
 }
