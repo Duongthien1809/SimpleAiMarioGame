@@ -12,8 +12,17 @@ public class GameRunThread extends Thread {
         play();
     }
 
+    private static WindowController windowController;
+    public int getScore(){
+        return windowController.getScore();
+    }
+
+    public void resetGame(){
+        windowController.resetGame();
+    }
+
     public static void play() {
-        WindowController windowController = new WindowController();
+        windowController = new WindowController();
         JFrame frame = new JFrame("GameX");
 
         createMenu(frame, windowController);

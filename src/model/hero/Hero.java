@@ -75,7 +75,10 @@ public class Hero extends Item {
         }
     }
 
-    //    public void move(boolean towardsRight, Camera camera) {
+    double prevX = getX();
+    public void resetPrevX(){
+        prevX = getX();
+    }
     public void move(boolean towardsRight, Camera camera) {
         if (towardsRight) {
             setVelocityX(5);
@@ -83,8 +86,10 @@ public class Hero extends Item {
         else if(camera.getX() < getX()){
             setVelocityX(-5);
         }
-        System.out.println();
         this.towardsRight = towardsRight;
+        //TODO: the distance to the end point should be considered in regard to score system
+        points += (getX() - prevX) / 10;
+        prevX = getX();
     }
     public void onTouchEnemy(){
 /*        if(!marioForm.isSuper() && !marioForm.isFire()){
@@ -134,7 +139,7 @@ public class Hero extends Item {
     public void resetLocation() {
         setVelocityX(0);
         setVelocityY(0);
-        setX(50);
+        setX(96);
         setJumping(false);
         setFalling(true);
     }
@@ -155,7 +160,4 @@ public class Hero extends Item {
         isDead = dead;
     }
 
-    public void setAnimation(Animation animation) {
-        this.animation = animation;
-    }
 }

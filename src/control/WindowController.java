@@ -223,9 +223,11 @@ public class WindowController extends JPanel {
 
     public void countDown() {
         counter--;
-        if (mapController.getHero().getPoints() > 0) {
-            mapController.getHero().setPoints(mapController.getHero().getPoints() - 1);
-        }
+        //TODO: adjust score system
+//        if (mapController.getHero().getPoints() > 0) {
+//            mapController.getHero().setPoints(mapController.getHero().getPoints() - 1);
+//        }
+        mapController.getHero().setPoints(mapController.getHero().getPoints() - 1);
         if (counter == 0) {
             endGame();
         }
@@ -263,5 +265,13 @@ public class WindowController extends JPanel {
                 mapController.updateTime();
             }
         }
+    }
+
+    public int getScore() {
+        return mapController.getScore();
+    }
+
+    public void resetGame(){
+        mapController.resetCurrentMap(this);
     }
 }
