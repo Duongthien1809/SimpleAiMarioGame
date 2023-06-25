@@ -88,14 +88,14 @@ class MapCreator {
                     Block brick = new Ground(xLocation, yLocation, this.groundBlock);
                     createdMap.addGroundBrick(brick);
                 } else if (currentPixel == bin) {
-                    //TODO trash bin Class to add
                     Bin trashBin = new Bin(xLocation, yLocation, this.bin);
                     createdMap.addBrick(trashBin);
                 } else if (currentPixel == mushroom) {
                     Enemy enemy = new Mushroom(xLocation, yLocation, this.goombaLeft, this.goombaRight);
                     createdMap.addEnemy(enemy);
                 } else if (currentPixel == heroRgb) {
-                    Hero hero = new Hero(xLocation, yLocation, bulletStyle);
+                    //TODO: adjust the initial position of hero for training
+                    Hero hero = new Hero(xLocation + 48 * 4, yLocation, bulletStyle);
                     createdMap.setHero(hero);
                 } else if (currentPixel == end) {
                     Endpoint endPoint = new Endpoint(xLocation + 24, yLocation, endFlag);

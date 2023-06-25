@@ -223,11 +223,10 @@ public class WindowController extends JPanel {
 
     public void countDown() {
         counter--;
-        //TODO: adjust score system
+        //TODO: deactivate score descending when counting down
 //        if (mapController.getHero().getPoints() > 0) {
 //            mapController.getHero().setPoints(mapController.getHero().getPoints() - 1);
 //        }
-        mapController.getHero().setPoints(mapController.getHero().getPoints() - 1);
         if (counter == 0) {
             endGame();
         }

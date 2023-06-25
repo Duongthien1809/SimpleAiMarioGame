@@ -88,7 +88,7 @@ public class Hero extends Item {
         }
         this.towardsRight = towardsRight;
         //TODO: the distance to the end point should be considered in regard to score system
-        points += (getX() - prevX) / 10;
+        points += (getX() - prevX) / 50;
         prevX = getX();
     }
     public void onTouchEnemy(){
@@ -113,6 +113,8 @@ public class Hero extends Item {
     public Bullet shoot(boolean towardsRight, double x, double y) {
         if (isArmed) {
             MusicPlayer.playShoot();
+            //TODO: each shot costs 2 points
+            points -= 2;
             return new Bullet(x, y + 48, bulletStyle, towardsRight);
         }
         return null;
@@ -139,7 +141,9 @@ public class Hero extends Item {
     public void resetLocation() {
         setVelocityX(0);
         setVelocityY(0);
-        setX(96);
+        //TODO: adjust the initial position of hero for training
+//        setX(48 * 2);
+        setX(48 * 2 + 48 * 4);
         setJumping(false);
         setFalling(true);
     }
