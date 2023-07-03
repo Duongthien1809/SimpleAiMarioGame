@@ -98,6 +98,39 @@ public class KeyboardInputThread extends Thread {
 
     @Override
     public void run() {
+        trainModel();
+//        testModel();
+    }
+
+    private void testModel() {
+        loadTransformMatrix();
+
+        int curKeyIndex = 0;//initial action VK_RIGHT
+        int nextKeyIndex;
+
+        Robot robot;
+        try {
+            robot = new Robot();
+            while (true) {
+                nextKeyIndex = getNextKeyIndex(curKeyIndex);
+                updateCountMatrix(curKeyIndex, nextKeyIndex);
+//                System.out.println(nextKeyIndex);
+                robot.keyPress(keyEvents[curKeyIndex]);
+                robot.delay(50);
+                robot.keyPress(keyEvents[nextKeyIndex]);
+                robot.delay(50);
+                robot.keyRelease(keyEvents[nextKeyIndex]);
+                robot.delay(50);
+                robot.keyRelease(keyEvents[curKeyIndex]);
+                robot.delay(50);
+                curKeyIndex = getNextKeyIndex(nextKeyIndex);
+            }
+        } catch (AWTException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void trainModel() {
         loadTransformMatrix();
 
         int curKeyIndex = 0;//initial action VK_RIGHT
@@ -107,8 +140,8 @@ public class KeyboardInputThread extends Thread {
         try {
             robot = new Robot();
             int maxScore = Integer.MIN_VALUE;
-            while (period-- > 0){
-                while (stepNum-- > 0){
+            while (period-- > 0) {
+                while (stepNum-- > 0) {
                     nextKeyIndex = getNextKeyIndex(curKeyIndex);
                     updateCountMatrix(curKeyIndex, nextKeyIndex);
 //                System.out.println(nextKeyIndex);
@@ -123,9 +156,10 @@ public class KeyboardInputThread extends Thread {
                     curKeyIndex = getNextKeyIndex(nextKeyIndex);
                 }
                 int curScore = gameRunThread.getScore();
-                if (curScore > maxScore){
+                if (curScore > maxScore) {
                     updateTransformMatrix();
                     saveTransformMatrix();
+                    maxScore = curScore;
                 }
                 //TODO: resetting game in another thread may cause inconsistency
                 gameRunThread.resetGame();
@@ -136,7 +170,7 @@ public class KeyboardInputThread extends Thread {
         }
     }
 
-    public int getNextKeyIndex(int curKeyIndex){
+    public int getNextKeyIndex(int curKeyIndex) {
         int curIndex = 0;
         int[] jumpTable = new int[100];
         for (int i = 0; i < transformMatrix[curKeyIndex].length; i++) {
@@ -145,7 +179,7 @@ public class KeyboardInputThread extends Thread {
                 jumpTable[curIndex++] = i;
             }
         }
-        if (curIndex < 99){
+        if (curIndex < 99) {
             curIndex++;
             jumpTable[curIndex] = keyEvents.length - 1;
         }
@@ -199,11 +233,11 @@ public class KeyboardInputThread extends Thread {
         }
     }
 
-    public void updateCountMatrix(int curKeyIndex, int nextKeyIndex){
+    public void updateCountMatrix(int curKeyIndex, int nextKeyIndex) {
         countMatrix[curKeyIndex][nextKeyIndex] += 1;
     }
 
-    public void updateTransformMatrix(){
+    public void updateTransformMatrix() {
         for (int i = 0; i < countMatrix.length; i++) {
             double sum = Arrays.stream(countMatrix[i]).sum();
             for (int j = 0; j < countMatrix.length; j++) {

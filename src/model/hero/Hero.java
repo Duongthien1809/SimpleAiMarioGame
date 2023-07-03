@@ -75,10 +75,6 @@ public class Hero extends Item {
         }
     }
 
-    double prevX = getX();
-    public void resetPrevX(){
-        prevX = getX();
-    }
     public void move(boolean towardsRight, Camera camera) {
         if (towardsRight) {
             setVelocityX(5);
@@ -87,9 +83,9 @@ public class Hero extends Item {
             setVelocityX(-5);
         }
         this.towardsRight = towardsRight;
-        //TODO: the distance to the end point should be considered in regard to score system
-        points += (getX() - prevX) / 50;
-        prevX = getX();
+        if (!towardsRight){
+            points -= 2;
+        }
     }
     public void onTouchEnemy(){
 /*        if(!marioForm.isSuper() && !marioForm.isFire()){

@@ -31,7 +31,6 @@ public class MapController {
         Hero hero = getHero();
         hero.resetRemainingLives();
         hero.resetLocation();
-        hero.resetPrevX();
         windowController.resetCamera();
         windowController.resetCounter();
         windowController.resetScore();

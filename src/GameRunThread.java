@@ -14,7 +14,10 @@ public class GameRunThread extends Thread {
 
     private static WindowController windowController;
     public int getScore(){
-        return windowController.getScore();
+        if (windowController != null){
+            return windowController.getScore();
+        }
+        return 0;
     }
 
     public void resetGame(){
@@ -26,7 +29,7 @@ public class GameRunThread extends Thread {
         JFrame frame = new JFrame("GameX");
 
         createMenu(frame, windowController);
-        registerWindowListener(frame);
+//        registerWindowListener(frame);
 
         frame.add(windowController);
         frame.addKeyListener(windowController.getKeyController());
@@ -45,22 +48,18 @@ public class GameRunThread extends Thread {
 
         JMenu fileMenu = new JMenu("File");
         JMenu gameMenu = new JMenu("Game");
-        JMenu saveMenu = new JMenu("Save");
+//        JMenu saveMenu = new JMenu("Save");
 
         menuBar.add(fileMenu);
         menuBar.add(gameMenu);
-        menuBar.add(saveMenu);
-
-        menuBar.add(fileMenu);
-        menuBar.add(gameMenu);
-        menuBar.add(saveMenu);
+//        menuBar.add(saveMenu);
 
         addFileMenuItems(fileMenu);
         addGameMenuItems(gameMenu, windowController);
-        addSaveMenuItems(saveMenu);
+//        addSaveMenuItems(saveMenu);
     }
 
-    public static void registerWindowListener(JFrame frame) {
+/*    public static void registerWindowListener(JFrame frame) {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -77,7 +76,7 @@ public class GameRunThread extends Thread {
                 //  Spiel wieder fortsetzen
             }
         });
-    }
+    }*/
 
     public static void addFileMenuItems(JMenu fileMenu) {
 
@@ -120,7 +119,7 @@ public class GameRunThread extends Thread {
         });
     }
 
-    public static void addSaveMenuItems(JMenu saveMenu) {
+/*    public static void addSaveMenuItems(JMenu saveMenu) {
         JMenuItem save1 = new JMenuItem("state 1");
         saveMenu.add(save1);
         save1.addActionListener(new ActionListener() {
@@ -146,5 +145,5 @@ public class GameRunThread extends Thread {
                 // save state 3
             }
         });
-    }
+    }*/
 }
