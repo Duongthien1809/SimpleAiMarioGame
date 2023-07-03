@@ -38,7 +38,7 @@ class MapCreator {
         this.ordinaryBlock = imageLoader.getSubImage(sprite, 1, 1, 48, 48);
         this.surpriseBlock = imageLoader.getSubImage(sprite, 2, 1, 48, 48);
         this.groundBlock = imageLoader.getSubImage(sprite, 2, 2, 48, 48);
-        this.emptyBlock = imageLoader.getSubImage(sprite, 2, 2, 48, 48);
+        this.emptyBlock = imageLoader.getSubImage(sprite, 1, 2, 48, 48);
         this.bin = imageLoader.getSubImage(sprite, 3, 1, 96, 96);
         this.goombaLeft = imageLoader.getSubImage(sprite, 2, 4, 48, 48);
         this.goombaRight = imageLoader.getSubImage(sprite, 5, 4, 48, 48);
@@ -82,20 +82,20 @@ class MapCreator {
                     createdMap.addBrick(block);
                 } else if (currentPixel == magicBlock) {
                     Award award = generateRandomCoin(xLocation, yLocation);
-                    Block brick = new Magic(xLocation, yLocation, this.surpriseBlock,emptyBlock, award);
+                    Block brick = new Magic(xLocation, yLocation, this.surpriseBlock,this.emptyBlock, award);
                     createdMap.addBrick(brick);
                 } else if (currentPixel == groundBlock) {
                     Block brick = new Ground(xLocation, yLocation, this.groundBlock);
                     createdMap.addGroundBrick(brick);
                 } else if (currentPixel == bin) {
-                    //TODO trash bin Class to add
                     Bin trashBin = new Bin(xLocation, yLocation, this.bin);
                     createdMap.addBrick(trashBin);
                 } else if (currentPixel == mushroom) {
                     Enemy enemy = new Mushroom(xLocation, yLocation, this.goombaLeft, this.goombaRight);
                     createdMap.addEnemy(enemy);
                 } else if (currentPixel == heroRgb) {
-                    Hero hero = new Hero(xLocation, yLocation, bulletStyle);
+                    //TODO: adjust the initial position of hero for training
+                    Hero hero = new Hero(xLocation + 48 * 4, yLocation, bulletStyle);
                     createdMap.setHero(hero);
                 } else if (currentPixel == end) {
                     Endpoint endPoint = new Endpoint(xLocation + 24, yLocation, endFlag);

@@ -27,7 +27,7 @@ public class Animation {
     }
 
     private void nextFrame(BufferedImage[] frames) {
-        if (index + 3 > frames.length)
+        if (index + 4 > frames.length)
             index = 0;
 
         currentFrame = frames[index + 2];

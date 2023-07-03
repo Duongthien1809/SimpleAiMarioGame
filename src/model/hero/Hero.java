@@ -14,6 +14,7 @@ public class Hero extends Item {
     private Animation animation;
     private int remainingLives = 3;
     private boolean isArmed;
+    private boolean isDead = false;
     private BufferedImage bulletStyle;
     private int points;
     private int coins;
@@ -35,6 +36,10 @@ public class Hero extends Item {
 
     public BufferedImage getCurrentStyle(boolean towardsRight, boolean movingInX, boolean movingInY) {
         BufferedImage style;
+
+        if (isDead) {
+            return towardsRight ? animation.getRightFrames()[5] : animation.getLeftFrames()[5];
+        }
 
         if (movingInY && towardsRight) {
             style = animation.getRightFrames()[0];
@@ -70,7 +75,6 @@ public class Hero extends Item {
         }
     }
 
-    //    public void move(boolean towardsRight, Camera camera) {
     public void move(boolean towardsRight, Camera camera) {
         if (towardsRight) {
             setVelocityX(5);
@@ -78,8 +82,10 @@ public class Hero extends Item {
         else if(camera.getX() < getX()){
             setVelocityX(-5);
         }
-        System.out.println();
         this.towardsRight = towardsRight;
+        if (!towardsRight){
+            points -= 2;
+        }
     }
     public void onTouchEnemy(){
 /*        if(!marioForm.isSuper() && !marioForm.isFire()){
@@ -103,6 +109,8 @@ public class Hero extends Item {
     public Bullet shoot(boolean towardsRight, double x, double y) {
         if (isArmed) {
             MusicPlayer.playShoot();
+            //TODO: each shot costs 2 points
+            points -= 2;
             return new Bullet(x, y + 48, bulletStyle, towardsRight);
         }
         return null;
@@ -129,7 +137,9 @@ public class Hero extends Item {
     public void resetLocation() {
         setVelocityX(0);
         setVelocityY(0);
-        setX(50);
+        //TODO: adjust the initial position of hero for training
+//        setX(48 * 2);
+        setX(48 * 2 + 48 * 4);
         setJumping(false);
         setFalling(true);
     }
@@ -145,4 +155,9 @@ public class Hero extends Item {
     public void setPoints(int points){
         this.points = points;
     }
+
+    public void setDead(boolean dead) {
+        isDead = dead;
+    }
+
 }

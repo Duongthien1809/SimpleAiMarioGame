@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.io.ByteArrayInputStream;
+import java.util.Random;
 
 public class WindowController extends JPanel {
     /**
@@ -75,7 +78,7 @@ public class WindowController extends JPanel {
         Point camLocation = this.getCameraLocation();
         g2.translate(-camLocation.x, -camLocation.y);
         mapController.drawMap(g2);
-        for (Bullet bullet : mapController.getBullets()){
+        for (Bullet bullet : mapController.getBullets()) {
             bullet.draw(g2);
         }
         g2.translate(camLocation.x, camLocation.y);
@@ -163,11 +166,11 @@ public class WindowController extends JPanel {
         return camera;
     }
 
-    public void resetCounter(){
+    public void resetCounter() {
         counter = 500;
     }
 
-    public void resetScore(){
+    public void resetScore() {
         mapController.getHero().resetPoints();
     }
 
@@ -220,10 +223,11 @@ public class WindowController extends JPanel {
 
     public void countDown() {
         counter--;
-        if (mapController.getHero().getPoints() > 0){
-            mapController.getHero().setPoints(mapController.getHero().getPoints() - 1);
-        }
-        if (counter == 0){
+        //TODO: deactivate score descending when counting down
+//        if (mapController.getHero().getPoints() > 0) {
+//            mapController.getHero().setPoints(mapController.getHero().getPoints() - 1);
+//        }
+        if (counter == 0) {
             endGame();
         }
         repaint();
@@ -260,5 +264,13 @@ public class WindowController extends JPanel {
                 mapController.updateTime();
             }
         }
+    }
+
+    public int getScore() {
+        return mapController.getScore();
+    }
+
+    public void resetGame(){
+        mapController.resetCurrentMap(this);
     }
 }
