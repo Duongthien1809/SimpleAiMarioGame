@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class KeyboardInputThread extends Thread {
+public class AIPlayerThread extends Thread {
     private int stepNum = 100;
     private int period = 100;
     private final int[] keyEvents = new int[]{KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT, KeyEvent.VK_UP, KeyEvent.VK_SPACE};
@@ -17,7 +17,7 @@ public class KeyboardInputThread extends Thread {
 
     private GameRunThread gameRunThread;
 
-    public KeyboardInputThread(GameRunThread gameRunThread) {
+    public AIPlayerThread(GameRunThread gameRunThread) {
         this.gameRunThread = gameRunThread;
     }
 

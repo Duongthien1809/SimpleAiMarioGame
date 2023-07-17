@@ -16,7 +16,7 @@ public class Hero extends Item {
     private boolean isArmed;
     private boolean isDead = false;
     private BufferedImage bulletStyle;
-    private int points;
+    private int points;//define the score collected by the hero
     private int coins;
 
     public Hero(double x, double y, BufferedImage bulletStyle) {
@@ -88,17 +88,6 @@ public class Hero extends Item {
         }
     }
     public void onTouchEnemy(){
-/*        if(!marioForm.isSuper() && !marioForm.isFire()){
-            remainingLives--;
-            engine.playMarioDies();
-            return true;
-        }
-        else{
-            engine.shakeCamera();
-            marioForm = marioForm.onTouchEnemy(engine.getImageLoader());
-            setDimension(48, 48);
-            return false;
-        }*/
         remainingLives--;
         MusicPlayer.playHeroDies();
     }
@@ -159,5 +148,4 @@ public class Hero extends Item {
     public void setDead(boolean dead) {
         isDead = dead;
     }
-
 }
