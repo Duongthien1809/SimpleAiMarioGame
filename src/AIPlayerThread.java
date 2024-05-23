@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class KeyboardInputThread extends Thread {
+public class AIPlayerThread extends Thread {
     private int stepNum = 100;
     private int period = 100;
     private final int[] keyEvents = new int[]{KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT, KeyEvent.VK_UP, KeyEvent.VK_SPACE};
@@ -17,84 +17,9 @@ public class KeyboardInputThread extends Thread {
 
     private GameRunThread gameRunThread;
 
-    public KeyboardInputThread(GameRunThread gameRunThread) {
+    public AIPlayerThread(GameRunThread gameRunThread) {
         this.gameRunThread = gameRunThread;
     }
-
-    /*    @Override
-    public void run() {
-        int[] combos;
-        Random random = new Random();
-        try {
-            while (true) {
-                Robot robot = new Robot();
-                int caseNum = random.nextInt(6);
-                switch (caseNum) {
-                    case 0:
-                        robot.keyPress(KeyEvent.VK_LEFT);
-                        robot.keyRelease(KeyEvent.VK_LEFT);
-                        robot.delay(50);
-                        break;
-                    case 1:
-                        robot.keyPress(KeyEvent.VK_RIGHT);
-                        robot.keyRelease(KeyEvent.VK_RIGHT);
-                        robot.delay(50);
-                        break;
-                    case 2:
-                        robot.keyPress(KeyEvent.VK_UP);
-                        robot.keyRelease(KeyEvent.VK_UP);
-                        robot.delay(50);
-                        break;
-                    case 3:
-                        robot.keyPress(KeyEvent.VK_SPACE);
-                        robot.keyRelease(KeyEvent.VK_SPACE);
-                        robot.delay(50);
-                        break;
-                    case 4:
-                        combos = new int[]{KeyEvent.VK_LEFT, KeyEvent.VK_UP};
-                        for (int i = 0; i < combos.length; i++) {
-                            robot.keyPress(combos[i]);
-                            robot.delay(50);
-                        }
-
-                        for (int i = combos.length - 1; i >= 0; i--) {
-                            robot.keyRelease(combos[i]);
-                            robot.delay(50);
-                        }
-                        break;
-                    case 5:
-                        combos = new int[]{KeyEvent.VK_RIGHT, KeyEvent.VK_UP};
-                        for (int i = 0; i < combos.length; i++) {
-                            robot.keyPress(combos[i]);
-                            robot.delay(50);
-                        }
-
-                        for (int i = combos.length - 1; i >= 0; i--) {
-                            robot.keyRelease(combos[i]);
-                            robot.delay(50);
-                        }
-                        break;
-                }
-
-*//*                int keyEvent = keyEvents[random.nextInt(4)];
-                robot.keyPress(keyEvent);
-                robot.keyRelease(keyEvent);
-                robot.delay(50);*//*
-
-     *//*                for (int i = 0; i < keyEvents.length; i++) {
-                    robot.keyPress(keyEvents[i]);
-                    robot.delay(50);
-                }
-
-                for (int i = keyEvents.length - 1; i >= 0; i--) {
-                    robot.keyRelease(keyEvents[i]);
-                    robot.delay(50);
-                }*//*
-            }
-        } catch (AWTException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
 
     @Override
     public void run() {

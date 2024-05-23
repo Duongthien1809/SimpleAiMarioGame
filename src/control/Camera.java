@@ -5,7 +5,7 @@ public class Camera {
     private int frameNumber;
     private boolean shaking;
 
-    public Camera(){
+    public Camera() {
         this.x = 0;
         this.y = 0;
         this.frameNumber = 25;
@@ -28,23 +28,17 @@ public class Camera {
         this.y = y;
     }
 
-    public void shakeCamera() {
-        shaking = true;
-        frameNumber = 60;
-    }
-
-    public void moveCam(double xAmount, double yAmount){
-        if(shaking && frameNumber > 0){
-            int direction = (frameNumber%2 == 0)? 1 : -1;
+    public void moveCam(double xAmount, double yAmount) {
+        if (shaking && frameNumber > 0) {
+            int direction = (frameNumber % 2 == 0) ? 1 : -1;
             x = x + 4 * direction;
             frameNumber--;
-        }
-        else{
+        } else {
             x = x + xAmount;
             y = y + yAmount;
         }
 
-        if(frameNumber < 0)
+        if (frameNumber < 0)
             shaking = false;
     }
 }
